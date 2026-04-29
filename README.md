@@ -7,9 +7,12 @@ A modern web-based user interface for the Insighta profile management system. Bu
 ✅ **GitHub OAuth Authentication** - Secure browser-based OAuth flow  
 ✅ **Cookie-based Sessions** - Automatic authentication with HttpOnly cookies  
 ✅ **Natural Language Search** - Search profiles using plain English queries  
-✅ **Role-based Access Control** - Admin features visible only to authorized users  
-✅ **Responsive Design** - Mobile-friendly interface built with Tailwind CSS  
-✅ **Profile Management** - Create, view, search, and export profiles  
+✅ **Advanced Filtering** - Filter profiles by gender, age group, country, and probability scores  
+✅ **Theme Switching** - Choose from 6 different themes (light, dark, cupcake, business, cyberpunk, forest)  
+✅ **Unified Navigation** - Drawer-based layout with consistent navigation across all pages  
+✅ **Toast Notifications** - Real-time feedback for user actions  
+✅ **Responsive Design** - Mobile-friendly interface built with DaisyUI and Tailwind CSS  
+✅ **Profile Management** - Browse, filter, and view detailed profile information
 
 ## Prerequisites
 
@@ -17,14 +20,35 @@ A modern web-based user interface for the Insighta profile management system. Bu
 - Backend API server running (stage-one/)
 - GitHub OAuth App configured
 
+## Tech Stack
+
+- **Frontend Framework**: Vanilla JavaScript (ES Modules)
+- **CSS Framework**: Tailwind CSS + DaisyUI
+- **Icons**: Lucide Icons
+- **Development Server**: http-server
+- **Module System**: Native ES6 modules
+
+## Architecture
+
+The application follows a modular architecture:
+
+- **Layout System**: Unified drawer navigation across all pages (`layout.js`)
+- **Component Library**: Reusable UI components for tables, pagination, etc. (`components.js`)
+- **Page Scripts**: Each page has its own module in `js/pages/`
+- **API Client**: Centralized API wrapper with error handling (`api.js`)
+- **Auth System**: Cookie-based authentication with automatic token management (`auth.js`)
+- **Toast Notifications**: Global notification system (`toast.js`)
+
 ## Installation
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 2. **Start the development server:**
+
    ```bash
    npm start
    ```
@@ -36,18 +60,31 @@ A modern web-based user interface for the Insighta profile management system. Bu
 
 ```
 web-portal/
-├── public/
-│   ├── index.html           # Login page
-│   ├── dashboard.html       # Main dashboard
-│   ├── profiles.html        # Search and view profiles
-│   ├── create.html          # Create new profile (admin only)
-│   ├── js/
-│   │   ├── api.js          # API client with fetch wrapper
-│   │   ├── auth.js         # Authentication logic
-│   │   ├── profiles.js     # Profile operations
-│   │   └── utils.js        # Utility functions
-│   └── css/
-│       └── styles.css      # Optional custom styles
+├── index.html               # Redirects to dashboard
+├── login.html               # Login page with GitHub OAuth
+├── dashboard.html           # Main dashboard with statistics
+├── profiles.html            # Browse profiles with advanced filters
+├── search.html              # Natural language profile search
+├── account.html             # User account/profile page
+├── profile-detail.html      # Individual profile detail view
+├── 404.html                 # Error page
+├── js/
+│   ├── api.js              # API client with fetch wrapper
+│   ├── auth.js             # Authentication logic
+│   ├── config.js           # Configuration constants
+│   ├── layout.js           # Drawer layout system
+│   ├── components.js       # Reusable UI components
+│   ├── toast.js            # Toast notification system
+│   ├── utils.js            # Utility functions
+│   └── pages/              # Page-specific scripts
+│       ├── dashboard.js    # Dashboard page logic
+│       ├── profiles.js     # Profiles page with filters
+│       ├── search.js       # Search page logic
+│       ├── account.js      # Account page logic
+│       ├── profile-detail.js  # Profile detail view
+│       └── login.js        # Login page logic
+├── css/
+│   └── styles.css          # Custom styles
 ├── package.json
 └── README.md
 ```
@@ -56,52 +93,60 @@ web-portal/
 
 ### Authentication Flow
 
-1. Click "Continue with GitHub" on the login page
-2. Authorize the application on GitHub
-3. You'll be redirected back to the dashboard
-4. Session persists across page refreshes (cookie-based)
+1. Visit the portal at `http://localhost:5500` (redirects to dashboard)
+2. If not authenticated, you'll be redirected to the login page
+3. Click "Continue with GitHub" to start OAuth flow
+4. Authorize the application on GitHub
+5. You'll be redirected back to the dashboard
+6. Session persists across page refreshes (cookie-based)
 
-### Searching Profiles
+### Navigation
 
-1. Navigate to **Profiles** page
+The portal features a unified drawer layout with four main pages:
+
+- **Dashboard** - View statistics and profile overview
+- **Profiles** - Browse all profiles with advanced filtering options
+- **Search** - Natural language search for profiles
+- **Account** - View your GitHub profile information and role
+
+### Searching Profiles (Natural Language)
+
+1. Navigate to the **Search** page
 2. Enter a natural language query:
-   - "adult males from nigeria"
-   - "female teenagers"
-   - "people from kenya"
+   - "females from Nigeria above 30"
+   - "male adults from United States"
+   - "teenagers below 16"
+   - "adults from Germany with above 40"
 3. Click **Search** or press Enter
 4. Results display in a paginated table
 5. Use pagination controls to browse results
+6. Click "View Details" to see individual profile information
 
-### Creating Profiles (Admin Only)
+### Browsing Profiles (Advanced Filters)
 
-1. Navigate to **Create Profile** page
-2. Enter a name (e.g., "John", "Mary", "Ahmed")
-3. Click **Create Profile**
-4. System fetches gender, age, and country data from external APIs
-5. View the created profile details
-6. Create another or view all profiles
+1. Navigate to the **Profiles** page
+2. Click "Show Filters" to reveal filter options:
+   - **Gender**: Filter by male or female
+   - **Age Group**: Filter by child, teen, adult, or senior
+   - **Age Range**: Set minimum and maximum age
+   - **Country ID**: Filter by specific country
+   - **Minimum Probabilities**: Filter by gender or country confidence scores
+3. Adjust sorting (Date Added, Age, Gender Probability)
+4. Change results per page (10, 25, or 50)
+5. Browse results with pagination controls
+6. Click "View Details" to see individual profile information
 
-### Exporting Profiles (Admin Only)
+### Theme Switching
 
-1. Search for profiles on the **Profiles** page
-2. Click **Export CSV** button
-3. Download starts automatically
-
-**Note:** The backend currently has a bug and exports JSON instead of CSV. This is a known backend issue.
-
-### Role-based Features
-
-**Regular Users can:**
-- View dashboard
-- Search profiles
-- View profile details
-
-**Admin Users can also:**
-- Create new profiles
-- Export profiles to CSV
-- Delete profiles (if implemented)
-
-Admin-only features are automatically hidden from non-admin users.
+1. Click the theme toggle icon in the navigation bar
+2. Cycle through available themes:
+   - Light
+   - Dark
+   - Cupcake
+   - Business
+   - Cyberpunk
+   - Forest
+3. Your theme preference is saved in local storage
 
 ## API Configuration
 
@@ -110,6 +155,7 @@ The web portal communicates with the backend API at `http://localhost:3000` by d
 ### Required Headers
 
 All API requests include:
+
 - `X-API-Version: 1` - Required by backend
 - `credentials: 'include'` - Sends authentication cookies
 
@@ -125,11 +171,14 @@ All API requests include:
 The backend API must:
 
 1. **CORS Configuration:**
+
    ```javascript
-   app.use(cors({
-       origin: 'http://localhost:5500',
-       credentials: true
-   }))
+   app.use(
+     cors({
+       origin: "http://localhost:5500",
+       credentials: true,
+     }),
+   );
    ```
 
 2. **OAuth Redirect:**
@@ -138,10 +187,9 @@ The backend API must:
 
 3. **API Endpoints:**
    - `GET /api/users/me` - Get current user info
-   - `GET /api/profiles` - Get all profiles (paginated)
-   - `GET /api/profiles/search` - Search profiles by query
-   - `POST /api/profiles` - Create new profile (admin only)
-   - `GET /api/profiles/export` - Export profiles (admin only)
+   - `GET /api/profiles` - Get all profiles (supports filters, pagination, and sorting)
+   - `GET /api/profiles/:id` - Get specific profile by ID
+   - `GET /api/profiles/search` - Search profiles with natural language query
 
 ## Development
 
@@ -155,32 +203,58 @@ The backend API must:
 
 ### Testing Profile Operations
 
-1. Log in as a regular user
-2. Search for profiles: "adult males from nigeria"
-3. Verify results display correctly
-4. Verify pagination works
-5. Verify "Create Profile" link is hidden
-6. Verify "Export CSV" button is hidden
+1. Log in and access the dashboard
+2. Navigate to **Search** page
+3. Test natural language queries:
+   - "females from Nigeria above 30"
+   - "male adults from United States"
+   - "teenagers below 16"
+4. Verify results display correctly with pagination
+5. Click "View Details" on a profile to see detailed information
 
-7. Log in as an admin user
-8. Verify "Create Profile" link is visible
-9. Create a new profile
-10. Verify success message and profile details
-11. Verify "Export CSV" button is visible on Profiles page
+6. Navigate to **Profiles** page
+7. Click "Show Filters" and test various filter combinations:
+   - Filter by gender
+   - Filter by age group
+   - Set age range
+   - Adjust minimum probabilities
+8. Test sorting options (Date Added, Age, Gender Probability)
+9. Test different results per page (10, 25, 50)
+10. Verify pagination works correctly
+
+11. Navigate to **Account** page
+12. Verify your GitHub profile information displays correctly
+13. Verify your role badge is shown
+
+14. Test theme switching
+15. Click the theme toggle icon in navigation
+16. Verify themes cycle through and persist on page reload
 
 ### Common Issues
 
 **Issue: CORS errors**
+
 - Solution: Verify backend CORS is configured with `origin: 'http://localhost:5500'` and `credentials: true`
 
 **Issue: Not redirecting after login**
+
 - Solution: Check backend's `handleGitHubCallback` redirects to `http://localhost:5500/dashboard.html`
 
 **Issue: "No access token" error**
+
 - Solution: Verify backend sets `access_token` cookie before redirecting
 
-**Issue: Role-based features not working**
-- Solution: Check `/api/users/me` returns correct role in response
+**Issue: Search or filters not working**
+
+- Solution: Check that backend API endpoints support query parameters for filtering and searching
+
+**Issue: Theme not persisting**
+
+- Solution: Check browser localStorage is enabled (theme preference is stored locally)
+
+**Issue: Navigation drawer not working**
+
+- Solution: Ensure DaisyUI CSS is loaded and Lucide icons are initialized properly
 
 ## Production Deployment
 
@@ -188,13 +262,18 @@ The backend API must:
 
 Deploy to static hosting (Vercel, Netlify, Cloudflare Pages):
 
-1. Build is not required (static files)
-2. Set environment variable for API URL if needed
-3. Update `API_URL` in `js/api.js` to production backend URL
+1. Build is not required (static files only)
+2. Configure production API URL in `js/config.js`
+3. Update `API_BASE_URL` to point to production backend
+4. Ensure all HTML files are at the root level
+5. Deploy the entire directory
+
+**Note**: The application uses native ES6 modules, so ensure your hosting provider serves files with correct MIME types.
 
 ### Backend Configuration
 
 Update backend environment variables:
+
 - `FRONTEND_URL` - Your production frontend URL
 - `REDIRECT_URI` - GitHub OAuth callback URL for production
 - Configure GitHub OAuth App with production callback URL
@@ -209,7 +288,9 @@ Update backend environment variables:
 
 ## Technologies Used
 
-- **Frontend:** Vanilla JavaScript (ES6+), HTML5, Tailwind CSS (CDN)
+- **Frontend:** Vanilla JavaScript (ES6+), HTML5
+- **CSS Framework:** Tailwind CSS (CDN), DaisyUI
+- **Icons:** Lucide Icons
 - **Build Tool:** http-server (simple static file server)
 - **Authentication:** Cookie-based JWT authentication
 - **API Client:** Fetch API with credential support
@@ -235,6 +316,7 @@ This project is part of the HNG internship program.
 ## Support
 
 For issues or questions:
+
 1. Check the backend API logs
 2. Check browser console for errors
 3. Verify CORS configuration
