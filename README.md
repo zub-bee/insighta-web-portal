@@ -86,6 +86,7 @@ web-portal/
 ├── css/
 │   └── styles.css          # Custom styles
 ├── package.json
+├── railway.json            # Railway deployment configuration
 └── README.md
 ```
 
@@ -258,7 +259,65 @@ The backend API must:
 
 ## Production Deployment
 
-### Frontend Deployment
+### Deploy to Railway (Recommended)
+
+Railway makes it easy to deploy this static application:
+
+1. **Install Railway CLI** (optional):
+
+   ```bash
+   npm i -g @railway/cli
+   ```
+
+2. **Connect your GitHub repository to Railway:**
+   - Go to [railway.app](https://railway.app)
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select your repository
+   - Railway will auto-detect the configuration from `railway.json`
+
+3. **Or deploy via Railway CLI:**
+
+   ```bash
+   railway login
+   railway init
+   railway up
+   ```
+
+4. **Configure environment (important):**
+   - Update `API_BASE_URL` in [js/config.js](js/config.js) to your backend Railway URL
+   - Railway will automatically assign a public URL for your frontend
+
+5. **Railway Configuration:**
+   The project includes a `railway.json` file that configures:
+   - Start command: `npx http-server -p $PORT --cors`
+   - Automatic port binding to Railway's `$PORT` variable
+   - CORS enabled for API communication
+
+6. **Update Backend CORS:**
+   After deployment, update your backend's CORS configuration to allow your Railway frontend URL:
+
+   ```javascript
+   app.use(
+     cors({
+       origin: "https://your-frontend.railway.app",
+       credentials: true,
+     }),
+   );
+   ```
+
+7. **Update GitHub OAuth:**
+   Update your GitHub OAuth App settings with the new Railway URL:
+   - Homepage URL: `https://your-frontend.railway.app`
+   - Authorization callback URL: Should point to your backend's callback endpoint
+
+**Deployment Tips:**
+
+- Railway automatically redeploys on git push
+- Check logs in Railway dashboard if deployment fails
+- Use Railway's environment variables for sensitive config
+- Domain mapping is available in Railway project settings
+
+### Deploy to Other Platforms
 
 Deploy to static hosting (Vercel, Netlify, Cloudflare Pages):
 
@@ -267,6 +326,7 @@ Deploy to static hosting (Vercel, Netlify, Cloudflare Pages):
 3. Update `API_BASE_URL` to point to production backend
 4. Ensure all HTML files are at the root level
 5. Deploy the entire directory
+6. Set the start command to: `npx http-server -p $PORT --cors`
 
 **Note**: The application uses native ES6 modules, so ensure your hosting provider serves files with correct MIME types.
 
