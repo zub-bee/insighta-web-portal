@@ -1,0 +1,12 @@
+{
+    "name": "insighta-web-portal",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "npx http-server -p 5500 --cors"
+    },
+    "dependencies": {
+        "dotenv": "^17.4.2",
+        "http-server": "^14.1.1"
+    }
+}
