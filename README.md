@@ -320,7 +320,3 @@ Mobile: iOS Safari, Chrome Mobile
 **Browser console:** Check for JavaScript errors  
 **CORS config:** Verify origin and credentials settings  
 **OAuth callback:** Verify GitHub App settings match URLs
-
----
-
-**Part of HNG Internship Program**
