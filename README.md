@@ -5,7 +5,7 @@ Modern web interface for Insighta profile management with GitHub OAuth authentic
 ## Production Links
 
 **Web Portal:** https://insighta-web-portal-production.up.railway.app  
-**API:** https://ubiquitous-chainsaw-production-5f71.up.railway.app/
+**API:** https://ubiquitous-chainsaw-production-5f71.up.railway.app
 
 ## Table of Contents
 
