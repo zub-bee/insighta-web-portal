@@ -1,383 +1,326 @@
 # Insighta Web Portal
 
-A modern web-based user interface for the Insighta profile management system. Built with vanilla HTML, JavaScript, and Tailwind CSS.
+Modern web interface for Insighta profile management with GitHub OAuth authentication, natural language search, and responsive design built with vanilla JavaScript and Tailwind CSS.
+
+## Production Links
+
+**Web Portal:** https://insighta-web-portal-production.up.railway.app  
+**API:** https://ubiquitous-chainsaw-production-5f71.up.railway.app/
+
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Configuration](#api-configuration)
+- [Development](#development)
+- [Deployment](#deployment)
 
 ## Features
 
-✅ **GitHub OAuth Authentication** - Secure browser-based OAuth flow  
-✅ **Cookie-based Sessions** - Automatic authentication with HttpOnly cookies  
-✅ **Natural Language Search** - Search profiles using plain English queries  
-✅ **Advanced Filtering** - Filter profiles by gender, age group, country, and probability scores  
-✅ **Theme Switching** - Choose from 6 different themes (light, dark, cupcake, business, cyberpunk, forest)  
-✅ **Unified Navigation** - Drawer-based layout with consistent navigation across all pages  
-✅ **Toast Notifications** - Real-time feedback for user actions  
-✅ **Responsive Design** - Mobile-friendly interface built with DaisyUI and Tailwind CSS  
-✅ **Profile Management** - Browse, filter, and view detailed profile information
-
-## Prerequisites
-
-- Node.js (v14 or higher)
-- Backend API server running (stage-one/)
-- GitHub OAuth App configured
+✅ GitHub OAuth authentication (cookie-based sessions)  
+✅ Natural language profile search  
+✅ Advanced filtering (gender, age, country, probability scores)  
+✅ Theme switching (6 themes: light, dark, cupcake, business, cyberperk, forest)  
+✅ Unified drawer navigation  
+✅ Toast notifications  
+✅ Responsive design (Tailwind CSS + DaisyUI)  
+✅ Profile management (browse, filter, view details)
 
 ## Tech Stack
 
-- **Frontend Framework**: Vanilla JavaScript (ES Modules)
-- **CSS Framework**: Tailwind CSS + DaisyUI
-- **Icons**: Lucide Icons
-- **Development Server**: http-server
-- **Module System**: Native ES6 modules
+**Frontend:** Vanilla JavaScript (ES6 modules), HTML5  
+**CSS:** Tailwind CSS + DaisyUI (CDN)  
+**Icons:** Lucide Icons  
+**Dev Server:** http-server  
+**Auth:** Cookie-based JWT with HttpOnly cookies
 
 ## Architecture
 
-The application follows a modular architecture:
+**Modular Structure:**
 
-- **Layout System**: Unified drawer navigation across all pages (`layout.js`)
-- **Component Library**: Reusable UI components for tables, pagination, etc. (`components.js`)
-- **Page Scripts**: Each page has its own module in `js/pages/`
-- **API Client**: Centralized API wrapper with error handling (`api.js`)
-- **Auth System**: Cookie-based authentication with automatic token management (`auth.js`)
-- **Toast Notifications**: Global notification system (`toast.js`)
+- **Layout System**: Unified drawer navigation (`layout.js`)
+- **Components**: Reusable UI elements (`components.js`)
+- **Page Scripts**: Individual modules in `js/pages/`
+- **API Client**: Centralized API wrapper (`api.js`)
+- **Auth System**: Cookie-based authentication (`auth.js`)
+- **Toast System**: Global notifications (`toast.js`)
+
+**Pages:**
+
+- `dashboard.html` - Statistics and overview
+- `profiles.html` - Browse with advanced filters
+- `search.html` - Natural language search
+- `account.html` - User profile and settings
+- `profile-detail.html` - Individual profile view
+- `login.html` - GitHub OAuth login
 
 ## Installation
 
-1. **Install dependencies:**
+```bash
+npm install
+npm start
+```
 
-   ```bash
-   npm install
-   ```
-
-2. **Start the development server:**
-
-   ```bash
-   npm start
-   ```
-
-3. **Access the portal:**
-   Open your browser and navigate to `http://localhost:5500`
+Access at: `http://localhost:5500`
 
 ## Project Structure
 
 ```
 web-portal/
-├── index.html               # Redirects to dashboard
-├── login.html               # Login page with GitHub OAuth
-├── dashboard.html           # Main dashboard with statistics
-├── profiles.html            # Browse profiles with advanced filters
-├── search.html              # Natural language profile search
-├── account.html             # User account/profile page
-├── profile-detail.html      # Individual profile detail view
-├── 404.html                 # Error page
+├── *.html              # Page templates
 ├── js/
-│   ├── api.js              # API client with fetch wrapper
-│   ├── auth.js             # Authentication logic
-│   ├── config.js           # Configuration constants
-│   ├── layout.js           # Drawer layout system
-│   ├── components.js       # Reusable UI components
-│   ├── toast.js            # Toast notification system
-│   ├── utils.js            # Utility functions
-│   └── pages/              # Page-specific scripts
-│       ├── dashboard.js    # Dashboard page logic
-│       ├── profiles.js     # Profiles page with filters
-│       ├── search.js       # Search page logic
-│       ├── account.js      # Account page logic
-│       ├── profile-detail.js  # Profile detail view
-│       └── login.js        # Login page logic
+│   ├── api.js          # API client
+│   ├── auth.js         # Authentication
+│   ├── config.js       # Configuration
+│   ├── layout.js       # Drawer layout
+│   ├── components.js   # UI components
+│   ├── toast.js        # Notifications
+│   ├── utils.js        # Utilities
+│   └── pages/          # Page scripts
+│       ├── dashboard.js
+│       ├── profiles.js
+│       ├── search.js
+│       ├── account.js
+│       ├── profile-detail.js
+│       └── login.js
 ├── css/
-│   └── styles.css          # Custom styles
-├── package.json
-├── railway.json            # Railway deployment configuration
-└── README.md
+│   └── styles.css      # Custom styles
+└── package.json
 ```
 
 ## Usage
 
 ### Authentication Flow
 
-1. Visit the portal at `http://localhost:5500` (redirects to dashboard)
-2. If not authenticated, you'll be redirected to the login page
-3. Click "Continue with GitHub" to start OAuth flow
-4. Authorize the application on GitHub
-5. You'll be redirected back to the dashboard
-6. Session persists across page refreshes (cookie-based)
+1. Visit `http://localhost:5500` (redirects to dashboard)
+2. If not authenticated, redirected to login page
+3. Click "Continue with GitHub" → OAuth flow
+4. Authorize application on GitHub
+5. Redirect to dashboard with HttpOnly cookies set
+6. Session persists across page refreshes
 
-### Navigation
+### Natural Language Search
 
-The portal features a unified drawer layout with four main pages:
+Navigate to **Search** page and enter queries:
 
-- **Dashboard** - View statistics and profile overview
-- **Profiles** - Browse all profiles with advanced filtering options
-- **Search** - Natural language search for profiles
-- **Account** - View your GitHub profile information and role
+- "females from Nigeria above 30"
+- "male adults from United States"
+- "teenagers below 16"
+- "adults from Germany with above 40"
 
-### Searching Profiles (Natural Language)
+Results display in paginated table with "View Details" option.
 
-1. Navigate to the **Search** page
-2. Enter a natural language query:
-   - "females from Nigeria above 30"
-   - "male adults from United States"
-   - "teenagers below 16"
-   - "adults from Germany with above 40"
-3. Click **Search** or press Enter
-4. Results display in a paginated table
-5. Use pagination controls to browse results
-6. Click "View Details" to see individual profile information
+### Advanced Filtering
 
-### Browsing Profiles (Advanced Filters)
+Navigate to **Profiles** page, click "Show Filters":
 
-1. Navigate to the **Profiles** page
-2. Click "Show Filters" to reveal filter options:
-   - **Gender**: Filter by male or female
-   - **Age Group**: Filter by child, teen, adult, or senior
-   - **Age Range**: Set minimum and maximum age
-   - **Country ID**: Filter by specific country
-   - **Minimum Probabilities**: Filter by gender or country confidence scores
-3. Adjust sorting (Date Added, Age, Gender Probability)
-4. Change results per page (10, 25, or 50)
-5. Browse results with pagination controls
-6. Click "View Details" to see individual profile information
+**Filter Options:**
+
+- Gender: male/female
+- Age Group: child/teen/adult/senior
+- Age Range: min/max age
+- Country ID: ISO country code
+- Minimum Probabilities: gender/country confidence
+
+**Additional Options:**
+
+- Sorting: Date Added, Age, Gender Probability
+- Results per page: 10, 25, 50
+- Pagination controls
 
 ### Theme Switching
 
-1. Click the theme toggle icon in the navigation bar
-2. Cycle through available themes:
-   - Light
-   - Dark
-   - Cupcake
-   - Business
-   - Cyberpunk
-   - Forest
-3. Your theme preference is saved in local storage
+1. Click theme toggle icon in navigation
+2. Cycle through 6 themes (Light, Dark, Cupcake, Business, Cyberpunk, Forest)
+3. Preference saved in localStorage
+
+### Account Page
+
+View GitHub profile information, role badge, and account details.
 
 ## API Configuration
 
-The web portal communicates with the backend API at `http://localhost:3000` by default.
+**Base URL:** `http://localhost:3000` (configure in `js/config.js`)
 
-### Required Headers
+**Required Headers:**
 
-All API requests include:
+- `X-API-Version: 1`
+- `credentials: 'include'` (sends cookies)
 
-- `X-API-Version: 1` - Required by backend
-- `credentials: 'include'` - Sends authentication cookies
+**Authentication:**
 
-### Authentication
+- Access tokens in HttpOnly cookies (automatic)
+- Refresh tokens in HttpOnly cookies
+- No manual token management
 
-- **Access tokens** are stored in HttpOnly cookies (secure, automatic)
-- **Refresh tokens** are also in HttpOnly cookies
-- No manual token management needed
-- Sessions persist across browser sessions
+### Backend Requirements
 
-## Backend Requirements
+**1. CORS Configuration:**
 
-The backend API must:
+```javascript
+app.use(
+  cors({
+    origin: "http://localhost:5500",
+    credentials: true,
+  }),
+);
+```
 
-1. **CORS Configuration:**
+**2. OAuth Redirect:**
 
-   ```javascript
-   app.use(
-     cors({
-       origin: "http://localhost:5500",
-       credentials: true,
-     }),
-   );
-   ```
+- After successful GitHub OAuth, redirect to: `http://localhost:5500/dashboard.html`
+- Set access_token and refresh_token as HttpOnly cookies before redirect
 
-2. **OAuth Redirect:**
-   - After successful GitHub OAuth, redirect to: `http://localhost:5500/dashboard.html`
-   - Set access_token and refresh_token as HttpOnly cookies before redirect
+**3. API Endpoints:**
 
-3. **API Endpoints:**
-   - `GET /api/users/me` - Get current user info
-   - `GET /api/profiles` - Get all profiles (supports filters, pagination, and sorting)
-   - `GET /api/profiles/:id` - Get specific profile by ID
-   - `GET /api/profiles/search` - Search profiles with natural language query
+- `GET /api/users/me` - Current user info
+- `GET /api/profiles` - All profiles (supports filters, pagination, sorting)
+- `GET /api/profiles/:id` - Specific profile by ID
+- `GET /api/profiles/search` - Natural language search
 
 ## Development
 
-### Testing Authentication
+### Testing
 
-1. Start backend: `cd ../stage-one && node app.js`
-2. Start frontend: `npm start`
-3. Navigate to `http://localhost:5500`
-4. Click "Login with GitHub"
-5. Verify redirect to dashboard after authorization
+**1. Start servers:**
 
-### Testing Profile Operations
+```bash
+# Terminal 1: Backend
+cd ../stage-one && node app.js
 
-1. Log in and access the dashboard
-2. Navigate to **Search** page
-3. Test natural language queries:
-   - "females from Nigeria above 30"
-   - "male adults from United States"
-   - "teenagers below 16"
-4. Verify results display correctly with pagination
-5. Click "View Details" on a profile to see detailed information
+# Terminal 2: Frontend
+npm start
+```
 
-6. Navigate to **Profiles** page
-7. Click "Show Filters" and test various filter combinations:
-   - Filter by gender
-   - Filter by age group
-   - Set age range
-   - Adjust minimum probabilities
-8. Test sorting options (Date Added, Age, Gender Probability)
-9. Test different results per page (10, 25, 50)
-10. Verify pagination works correctly
+**2. Test authentication:**
 
-11. Navigate to **Account** page
-12. Verify your GitHub profile information displays correctly
-13. Verify your role badge is shown
+- Navigate to `http://localhost:5500`
+- Click "Login with GitHub"
+- Verify redirect to dashboard
 
-14. Test theme switching
-15. Click the theme toggle icon in navigation
-16. Verify themes cycle through and persist on page reload
+**3. Test features:**
+
+- Search: Natural language queries
+- Profiles: Filter combinations, sorting, pagination
+- Account: Profile info and role display
+- Theme: Switch and verify persistence
 
 ### Common Issues
 
-**Issue: CORS errors**
+| Issue                       | Solution                                                                    |
+| --------------------------- | --------------------------------------------------------------------------- |
+| CORS errors                 | Verify backend CORS: `origin: 'http://localhost:5500'`, `credentials: true` |
+| Not redirecting after login | Check backend redirects to `http://localhost:5500/dashboard.html`           |
+| "No access token" error     | Verify backend sets `access_token` cookie before redirect                   |
+| Search/filters not working  | Check backend API supports query parameters                                 |
+| Theme not persisting        | Verify localStorage is enabled                                              |
+| Navigation drawer broken    | Ensure DaisyUI CSS loaded and Lucide icons initialized                      |
 
-- Solution: Verify backend CORS is configured with `origin: 'http://localhost:5500'` and `credentials: true`
+## Deployment
 
-**Issue: Not redirecting after login**
+### Railway Deployment (Recommended)
 
-- Solution: Check backend's `handleGitHubCallback` redirects to `http://localhost:5500/dashboard.html`
+**1. Connect Repository:**
 
-**Issue: "No access token" error**
+- Go to [railway.app](https://railway.app)
+- New Project → Deploy from GitHub repo
+- Select repository (auto-detects `railway.json`)
 
-- Solution: Verify backend sets `access_token` cookie before redirecting
+**2. Or via CLI:**
 
-**Issue: Search or filters not working**
+```bash
+npm i -g @railway/cli
+railway login
+railway init
+railway up
+```
 
-- Solution: Check that backend API endpoints support query parameters for filtering and searching
+**3. Configuration:**
 
-**Issue: Theme not persisting**
+- Update `API_BASE_URL` in `js/config.js` to backend Railway URL
+- Railway auto-assigns public URL for frontend
+- `railway.json` configures: `npx http-server -p $PORT --cors`
 
-- Solution: Check browser localStorage is enabled (theme preference is stored locally)
+**4. Update Backend:**
 
-**Issue: Navigation drawer not working**
+```javascript
+// Backend CORS
+app.use(
+  cors({
+    origin: "https://your-frontend.railway.app",
+    credentials: true,
+  }),
+);
+```
 
-- Solution: Ensure DaisyUI CSS is loaded and Lucide icons are initialized properly
+**5. Update GitHub OAuth:**
 
-## Production Deployment
+- Homepage URL: `https://your-frontend.railway.app`
+- Callback URL: Backend's callback endpoint
 
-### Deploy to Railway (Recommended)
+**Tips:**
 
-Railway makes it easy to deploy this static application:
+- Auto-redeploy on git push
+- Check logs in Railway dashboard
+- Use environment variables for sensitive config
+- Domain mapping available in project settings
 
-1. **Install Railway CLI** (optional):
+### Other Platforms (Vercel, Netlify, Cloudflare Pages)
 
-   ```bash
-   npm i -g @railway/cli
-   ```
-
-2. **Connect your GitHub repository to Railway:**
-   - Go to [railway.app](https://railway.app)
-   - Click "New Project" → "Deploy from GitHub repo"
-   - Select your repository
-   - Railway will auto-detect the configuration from `railway.json`
-
-3. **Or deploy via Railway CLI:**
-
-   ```bash
-   railway login
-   railway init
-   railway up
-   ```
-
-4. **Configure environment (important):**
-   - Update `API_BASE_URL` in [js/config.js](js/config.js) to your backend Railway URL
-   - Railway will automatically assign a public URL for your frontend
-
-5. **Railway Configuration:**
-   The project includes a `railway.json` file that configures:
-   - Start command: `npx http-server -p $PORT --cors`
-   - Automatic port binding to Railway's `$PORT` variable
-   - CORS enabled for API communication
-
-6. **Update Backend CORS:**
-   After deployment, update your backend's CORS configuration to allow your Railway frontend URL:
-
-   ```javascript
-   app.use(
-     cors({
-       origin: "https://your-frontend.railway.app",
-       credentials: true,
-     }),
-   );
-   ```
-
-7. **Update GitHub OAuth:**
-   Update your GitHub OAuth App settings with the new Railway URL:
-   - Homepage URL: `https://your-frontend.railway.app`
-   - Authorization callback URL: Should point to your backend's callback endpoint
-
-**Deployment Tips:**
-
-- Railway automatically redeploys on git push
-- Check logs in Railway dashboard if deployment fails
-- Use Railway's environment variables for sensitive config
-- Domain mapping is available in Railway project settings
-
-### Deploy to Other Platforms
-
-Deploy to static hosting (Vercel, Netlify, Cloudflare Pages):
-
-1. Build is not required (static files only)
+1. No build required (static files)
 2. Configure production API URL in `js/config.js`
-3. Update `API_BASE_URL` to point to production backend
-4. Ensure all HTML files are at the root level
-5. Deploy the entire directory
-6. Set the start command to: `npx http-server -p $PORT --cors`
+3. Update `API_BASE_URL` to production backend
+4. Deploy entire directory
+5. Start command: `npx http-server -p $PORT --cors`
 
-**Note**: The application uses native ES6 modules, so ensure your hosting provider serves files with correct MIME types.
+**Note:** Application uses native ES6 modules - ensure hosting serves correct MIME types.
 
-### Backend Configuration
+### Backend Production Config
 
-Update backend environment variables:
+```env
+FRONTEND_URL=https://your-frontend-url.com
+REDIRECT_URI=https://your-backend-url.com/auth/github/callback
+```
 
-- `FRONTEND_URL` - Your production frontend URL
-- `REDIRECT_URI` - GitHub OAuth callback URL for production
-- Configure GitHub OAuth App with production callback URL
+Update GitHub OAuth App with production callback URL.
 
-### Security Considerations
+### Security Checklist
 
-- Use HTTPS in production
-- Set `secure: true` for cookies in production
-- Configure CSP headers
-- Enable rate limiting on backend
-- Monitor for suspicious activity
-
-## Technologies Used
-
-- **Frontend:** Vanilla JavaScript (ES6+), HTML5
-- **CSS Framework:** Tailwind CSS (CDN), DaisyUI
-- **Icons:** Lucide Icons
-- **Build Tool:** http-server (simple static file server)
-- **Authentication:** Cookie-based JWT authentication
-- **API Client:** Fetch API with credential support
+- [ ] Use HTTPS in production
+- [ ] Set `secure: true` for cookies
+- [ ] Configure CSP headers
+- [ ] Enable rate limiting on backend
+- [ ] Monitor for suspicious activity
 
 ## Browser Support
 
-- Chrome/Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+Chrome/Edge, Firefox, Safari (latest versions)  
+Mobile: iOS Safari, Chrome Mobile
+
+## File Structure Details
+
+**HTML Files:** Page templates at root level  
+**JS Modules:** ES6 modules in `js/` folder  
+**Styles:** Custom CSS in `css/styles.css`  
+**Config:** `railway.json` for Railway deployment
 
 ## Contributing
 
-1. Create a feature branch
-2. Make your changes
+1. Create feature branch
+2. Make changes
 3. Test thoroughly
-4. Submit a pull request
+4. Submit pull request
 
-## License
+## Troubleshooting
 
-This project is part of the HNG internship program.
+**Backend API logs:** Check for CORS/auth errors  
+**Browser console:** Check for JavaScript errors  
+**CORS config:** Verify origin and credentials settings  
+**OAuth callback:** Verify GitHub App settings match URLs
 
-## Support
+---
 
-For issues or questions:
-
-1. Check the backend API logs
-2. Check browser console for errors
-3. Verify CORS configuration
-4. Verify OAuth callback URL configuration
+**Part of HNG Internship Program**
