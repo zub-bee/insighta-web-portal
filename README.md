@@ -2,10 +2,9 @@
 
 Modern web interface for Insighta profile management with GitHub OAuth authentication, natural language search, and responsive design built with vanilla JavaScript and Tailwind CSS.
 
-## Production Links
+## Production Link
 
-**Web Portal:** https://insighta-web-portal-production.up.railway.app  
-**API:** https://ubiquitous-chainsaw-production-5f71.up.railway.app
+**Web Portal:** [https://insighta-web-portal.up.railway.app](https://insighta-web-portal.up.railway.app)
 
 ## Table of Contents
 
@@ -20,14 +19,14 @@ Modern web interface for Insighta profile management with GitHub OAuth authentic
 
 ## Features
 
-✅ GitHub OAuth authentication (cookie-based sessions)  
-✅ Natural language profile search  
-✅ Advanced filtering (gender, age, country, probability scores)  
-✅ Theme switching (6 themes: light, dark, cupcake, business, cyberperk, forest)  
-✅ Unified drawer navigation  
-✅ Toast notifications  
-✅ Responsive design (Tailwind CSS + DaisyUI)  
-✅ Profile management (browse, filter, view details)
+1. GitHub OAuth authentication (cookie-based sessions)
+2. Natural language profile search
+3. Advanced filtering (gender, age, country, probability scores)
+4. Theme switching (6 themes: light, dark, cupcake, business, cyberperk, forest)
+5. Unified drawer navigation
+6. Toast notifications
+7. Responsive design (Tailwind CSS + DaisyUI)
+8. Profile management (browse, filter, view details)
 
 ## Tech Stack
 
