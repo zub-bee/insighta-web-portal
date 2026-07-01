@@ -64,8 +64,15 @@ async function doSearch() {
 
 function renderPage(isLoading = false, data = null) {
   const results = data?.data ?? [];
-  const total = data?.total ?? 0;
-  const totalPages = data?.total_pages ?? 1;
+  const total = Number(data?.total ?? 0);
+  const responseLimit = Number(data?.limit ?? limit);
+  const rawTotalPages = Number(
+    data?.total_pages ?? data?.pagination?.total_pages ?? 0,
+  );
+  const totalPages =
+    rawTotalPages > 0
+      ? rawTotalPages
+      : Math.max(1, Math.ceil(total / (responseLimit || limit || 10)));
 
   // Example query badges
   const examplesHtml = EXAMPLE_QUERIES.map(
@@ -123,7 +130,7 @@ function renderPage(isLoading = false, data = null) {
           ${sortControlsHtml}
         </div>
         ${renderProfilesTable(results)}
-        ${totalPages > 1 ? renderPagination(page, totalPages, total, limit) : ""}`;
+        ${totalPages > 1 ? renderPagination(page, totalPages, total, responseLimit || limit) : ""}`;
     }
   } else {
     resultsHtml = `
