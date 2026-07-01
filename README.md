@@ -2,10 +2,6 @@
 
 Modern web interface for Insighta profile management with GitHub OAuth authentication, natural language search, and responsive design built with vanilla JavaScript and Tailwind CSS.
 
-## Production Link
-
-**Web Portal:** [https://insighta-web-portal.up.railway.app](https://insighta-web-portal.up.railway.app)
-
 ## Table of Contents
 
 - [Features](#features)
